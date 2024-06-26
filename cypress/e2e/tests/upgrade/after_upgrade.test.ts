@@ -130,16 +130,20 @@ describe(["@post-upgrade"], "Performing post-upgrade validations", () => {
         uploadBinaryApplication.verifyAnalysisStatus("Completed");
     });
 
-    it("Enabling RWX, validating it works, disabling it", function () {
+    it("Validating RWX is disabled", function () {
         MavenConfiguration.open();
         let rwxEnabled = false;
         isEnabled(clearRepository, rwxEnabled);
+    });
 
-        rwxEnabled = true;
+    it("Enabling RWX, validating it works", function () {
+        let rwxEnabled = true;
         configureRWX(rwxEnabled);
         isEnabled(clearRepository, rwxEnabled);
+    });
 
-        rwxEnabled = false;
+    it("Re-disable RWX, validating it is disabled", function () {
+        let rwxEnabled = false;
         configureRWX(rwxEnabled);
         isEnabled(clearRepository, rwxEnabled);
     });
