@@ -1714,7 +1714,7 @@ export function configureRWX(isEnabled = true): void {
     });
 
     // Timeout as it takes time until pods are starting to reboot
-    cy.wait(180 * SEC);
+    cy.wait(300 * SEC);
     cy.reload();
 }
 
