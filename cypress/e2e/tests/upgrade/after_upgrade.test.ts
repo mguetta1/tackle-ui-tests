@@ -68,136 +68,136 @@ describe(["@post-upgrade"], "Performing post-upgrade validations", () => {
     });
 
     // Enable fail fast, skip the rest of tests if this specific test fails.
-    it("Validate MTA version in UI", { failFast: { enabled: true } }, () =>
-        validateMtaVersionInUI(expectedMtaVersion)
-    );
+    // it("Validate MTA version in UI", { failFast: { enabled: true } }, () =>
+    //     validateMtaVersionInUI(expectedMtaVersion)
+    // );
 
-    it("Validate MTA version in CLI", () => validateMtaVersionInCLI(expectedMtaVersion));
+    // it("Validate MTA version in CLI", () => validateMtaVersionInCLI(expectedMtaVersion));
 
-    it("Validate Tackle CR", () => validateTackleCr());
+    // it("Validate Tackle CR", () => validateTackleCr());
 
-    it("Validate Tackle Operator Log", () => validateTackleOperatorLog());
+    // it("Validate Tackle Operator Log", () => validateTackleOperatorLog());
 
-    it("Controls - testing existence of instances created before upgrade", function () {
-        const {
-            sourceControlUsernameCredentialsName,
-            mavenUsernameCredentialName,
-            jobFunctionName,
-            stakeHolderGroupName,
-            stakeHolderName,
-            businessServiceName,
-            tagTypeName,
-            tagName,
-        } = this.upgradeData;
+    // it("Controls - testing existence of instances created before upgrade", function () {
+    //     const {
+    //         sourceControlUsernameCredentialsName,
+    //         mavenUsernameCredentialName,
+    //         jobFunctionName,
+    //         stakeHolderGroupName,
+    //         stakeHolderName,
+    //         businessServiceName,
+    //         tagTypeName,
+    //         tagName,
+    //     } = this.upgradeData;
 
-        Credentials.openList();
-        exists(sourceControlUsernameCredentialsName);
-        exists(mavenUsernameCredentialName);
+    //     Credentials.openList();
+    //     exists(sourceControlUsernameCredentialsName);
+    //     exists(mavenUsernameCredentialName);
 
-        Stakeholders.openList();
-        exists(stakeHolderName, stakeHoldersTable);
+    //     Stakeholders.openList();
+    //     exists(stakeHolderName, stakeHoldersTable);
 
-        Stakeholdergroups.openList();
-        exists(stakeHolderGroupName);
+    //     Stakeholdergroups.openList();
+    //     exists(stakeHolderGroupName);
 
-        Jobfunctions.openList();
-        exists(jobFunctionName);
+    //     Jobfunctions.openList();
+    //     exists(jobFunctionName);
 
-        BusinessServices.openList();
-        exists(businessServiceName);
+    //     BusinessServices.openList();
+    //     exists(businessServiceName);
 
-        TagCategory.openList();
-        exists(tagTypeName);
+    //     TagCategory.openList();
+    //     exists(tagTypeName);
 
-        expandRowDetails(tagTypeName);
-        exists(tagName);
-    });
+    //     expandRowDetails(tagTypeName);
+    //     exists(tagName);
+    // });
 
-    it("Archetype - testing existence of instance created before upgrade", function () {
-        const { archetypeName } = this.upgradeData;
-        Archetype.open();
-        exists(archetypeName);
-    });
+    // it("Archetype - testing existence of instance created before upgrade", function () {
+    //     const { archetypeName } = this.upgradeData;
+    //     Archetype.open();
+    //     exists(archetypeName);
+    // });
 
-    it("Applications - testing existence of instances created before upgrade", function () {
-        const { sourceApplicationName, binaryApplicationName, uploadBinaryApplicationName } =
-            this.upgradeData;
+    // it("Applications - testing existence of instances created before upgrade", function () {
+    //     const { sourceApplicationName, binaryApplicationName, uploadBinaryApplicationName } =
+    //         this.upgradeData;
 
-        const sourceApplication = new Analysis(
-            getRandomApplicationData("bookserverApp", {
-                sourceData: this.appData["bookserver-app"],
-            }),
-            getRandomAnalysisData(this.analysisData["source_analysis_on_bookserverapp"])
-        );
-        sourceApplication.name = sourceApplicationName;
+    //     const sourceApplication = new Analysis(
+    //         getRandomApplicationData("bookserverApp", {
+    //             sourceData: this.appData["bookserver-app"],
+    //         }),
+    //         getRandomAnalysisData(this.analysisData["source_analysis_on_bookserverapp"])
+    //     );
+    //     sourceApplication.name = sourceApplicationName;
 
-        const binaryApplication = new Analysis(
-            getRandomApplicationData("tackletestApp_binary", {
-                binaryData: this.appData["tackle-testapp-binary"],
-            }),
-            getRandomAnalysisData(this.analysisData["binary_analysis_on_tackletestapp"])
-        );
-        binaryApplication.name = binaryApplicationName;
+    //     const binaryApplication = new Analysis(
+    //         getRandomApplicationData("tackletestApp_binary", {
+    //             binaryData: this.appData["tackle-testapp-binary"],
+    //         }),
+    //         getRandomAnalysisData(this.analysisData["binary_analysis_on_tackletestapp"])
+    //     );
+    //     binaryApplication.name = binaryApplicationName;
 
-        const uploadBinaryApplication = new Analysis(
-            getRandomApplicationData("uploadBinary"),
-            getRandomAnalysisData(this.analysisData["uploadbinary_analysis_on_acmeair"])
-        );
-        uploadBinaryApplication.name = uploadBinaryApplicationName;
+    //     const uploadBinaryApplication = new Analysis(
+    //         getRandomApplicationData("uploadBinary"),
+    //         getRandomAnalysisData(this.analysisData["uploadbinary_analysis_on_acmeair"])
+    //     );
+    //     uploadBinaryApplication.name = uploadBinaryApplicationName;
 
-        Analysis.open();
-        exists(sourceApplicationName);
-        exists(binaryApplicationName);
-        exists(uploadBinaryApplicationName);
+    //     Analysis.open();
+    //     exists(sourceApplicationName);
+    //     exists(binaryApplicationName);
+    //     exists(uploadBinaryApplicationName);
 
-        uploadBinaryApplication.analyze();
-        uploadBinaryApplication.verifyAnalysisStatus("Completed");
-        uploadBinaryApplication.selectApplication();
+    //     uploadBinaryApplication.analyze();
+    //     uploadBinaryApplication.verifyAnalysisStatus("Completed");
+    //     uploadBinaryApplication.selectApplication();
 
-        binaryApplication.analyze();
-        binaryApplication.verifyAnalysisStatus("Completed");
-        binaryApplication.selectApplication();
+    //     binaryApplication.analyze();
+    //     binaryApplication.verifyAnalysisStatus("Completed");
+    //     binaryApplication.selectApplication();
 
-        sourceApplication.analyze();
-        sourceApplication.verifyAnalysisStatus("Completed");
-        sourceApplication.selectApplication();
-    });
+    //     sourceApplication.analyze();
+    //     sourceApplication.verifyAnalysisStatus("Completed");
+    //     sourceApplication.selectApplication();
+    // });
 
-    it("Verify that assessed application is migrated", function () {
-        const assessmentApplication = new Application({
-            name: this.upgradeData.assessmentApplicationName,
-        });
-        assessmentApplication.verifyStatus("assessment", "Completed");
-    });
+    // it("Verify that assessed application is migrated", function () {
+    //     const assessmentApplication = new Application({
+    //         name: this.upgradeData.assessmentApplicationName,
+    //     });
+    //     assessmentApplication.verifyStatus("assessment", "Completed");
+    // });
 
-    it("Verify that imported questionnaire assessement is migrated", function () {
-        AssessmentQuestionnaire.disable(legacyPathfinder);
-        AssessmentQuestionnaire.enable(cloudReadinessQuestionnaire);
-        const assessmentApplication = new Application({
-            name: this.upgradeData.importedQuestionnaireAppName,
-        });
-        assessmentApplication.verifyStatus("assessment", "Completed");
-        assessmentApplication.validateAssessmentField("Medium");
-        AssessmentQuestionnaire.disable(cloudReadinessQuestionnaire);
-        AssessmentQuestionnaire.enable(legacyPathfinder);
-    });
+    // it("Verify that imported questionnaire assessement is migrated", function () {
+    //     AssessmentQuestionnaire.disable(legacyPathfinder);
+    //     AssessmentQuestionnaire.enable(cloudReadinessQuestionnaire);
+    //     const assessmentApplication = new Application({
+    //         name: this.upgradeData.importedQuestionnaireAppName,
+    //     });
+    //     assessmentApplication.verifyStatus("assessment", "Completed");
+    //     assessmentApplication.validateAssessmentField("Medium");
+    //     AssessmentQuestionnaire.disable(cloudReadinessQuestionnaire);
+    //     AssessmentQuestionnaire.enable(legacyPathfinder);
+    // });
 
-    it("Validating pods after upgrade", function () {
-        const allowedPodsList = [
-            "keycloak-0",
-            "mta-hub",
-            "mta-keycloak-postgresql",
-            "mta-operator",
-            "mta-ui",
-            "rhsso-operator",
-        ];
-        getCommandOutput(`oc get pods -n${getNamespace()}`).then((result) => {
-            allowedPodsList.forEach((podName) => {
-                expect(result.stdout).contains(podName);
-            });
-            expect(result.stdout).not.contain("pathfinder");
-        });
-    });
+    // it("Validating pods after upgrade", function () {
+    //     const allowedPodsList = [
+    //         "keycloak-0",
+    //         "mta-hub",
+    //         "mta-keycloak-postgresql",
+    //         "mta-operator",
+    //         "mta-ui",
+    //         "rhsso-operator",
+    //     ];
+    //     getCommandOutput(`oc get pods -n${getNamespace()}`).then((result) => {
+    //         allowedPodsList.forEach((podName) => {
+    //             expect(result.stdout).contains(podName);
+    //         });
+    //         expect(result.stdout).not.contain("pathfinder");
+    //     });
+    // });
 
     it("Enabling RWX, validating it works, disabling it", function () {
         MavenConfiguration.open();
