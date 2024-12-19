@@ -31,7 +31,9 @@ import {
     migration,
     TaskFilter,
     trTag,
+    MIN,
 } from "../../../types/constants";
+import { analysisDetailsEditor } from "../../../views/analysis.view";
 import { sideKebabMenu } from "../../../views/applicationinventory.view";
 import {
     actionMenuItem,
@@ -40,7 +42,7 @@ import {
     searchInput,
 } from "../../../views/common.view";
 import { navMenu } from "../../../views/menu.view";
-import { tasksStatusColumn } from "../../../views/taskmanager.view";
+import { TaskManagerColumns, tasksStatusColumn } from "../../../views/taskmanager.view";
 
 export class TaskManager {
     static fullUrl = Cypress.env("tackleUrl") + "/tasks";
@@ -132,5 +134,26 @@ export class TaskManager {
         } else {
             cy.get(kebabActionButton).contains("Cancel").should("not.be.enabled");
         }
+    }
+
+    public static verifyTaskDetailsByStatus(
+        appName: string,
+        taskKind: TaskKind,
+        taskStatus: TaskStatus = TaskStatus.succeeded
+    ) {
+        TaskManager.open();
+        cy.get(trTag)
+            .filter(':contains("' + appName + '")')
+            .filter(':contains("' + taskKind + '")')
+            .within(() => {
+                cy.get(TaskManagerColumns.status, { timeout: 10 * MIN }).should(
+                    "have.text",
+                    taskStatus
+                );
+                cy.get(TaskManagerColumns.status).click();
+                cy.get(".pf-v5-c-code-editor__code");
+                // .should("contain.text", "kind: " + taskKind)
+                // .should("contain.text", "state: " + taskStatus)
+            });
     }
 }

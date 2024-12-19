@@ -32,7 +32,6 @@ import { TaskKind, TaskStatus } from "../../../types/constants";
 import { TaskManagerColumns, tasksTable } from "../../../views/taskmanager.view";
 
 let applicationsList: Array<Analysis> = [];
-let application: Analysis;
 
 describe(["@tier1"], "Task Manager", () => {
     before("Login", function () {
@@ -55,7 +54,7 @@ describe(["@tier1"], "Task Manager", () => {
 
     it("Navigation to the task manager page is allowed from the left navigation menu", function () {
         for (let i = 0; i < 2; i++) {
-            application = new Analysis(
+            const application = new Analysis(
                 getRandomApplicationData("", {
                     sourceData: this.appData["bookserver-app"],
                 }),
