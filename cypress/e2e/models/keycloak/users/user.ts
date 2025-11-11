@@ -17,7 +17,6 @@ import {
     assignRoleButton,
     checkBox,
     createPasswordButton,
-    modalConfirmButton,
     passwordConfirm,
     passwordInput,
     saveUserButton,
@@ -127,8 +126,8 @@ export class User {
     }
 
     protected inputPassword(password: string) {
-        inputText(passwordInput, password, false, true);
-        inputText(passwordConfirm, password, false, true);
+        inputText(passwordInput, password);
+        inputText(passwordConfirm, password);
     }
 
     create(): void {
@@ -157,12 +156,11 @@ export class User {
     definePassword(): void {
         this.navigateToSection("credentials");
         click(createPasswordButton);
-        // Wait for the modal to open and password fields to be visible
-        cy.get(passwordInput, { timeout: 10 * SEC }).should("be.visible");
         this.inputPassword(this.password);
         click(tempPasswordToggle);
-        click(modalConfirmButton);
-        click(modalConfirmButton);
+        clickByText("button", "Save");
+        clickByText("button", "Save password");
+        cy.wait(2 * SEC); // Wait for password to be saved
     }
 
     addRole(role: string): void {
