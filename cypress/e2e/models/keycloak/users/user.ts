@@ -156,9 +156,21 @@ export class User {
     definePassword(): void {
         this.navigateToSection("credentials");
         click(createPasswordButton);
+        // Wait for modal and password fields to be visible and enabled
+        cy.get(passwordInput, { timeout: 10 * SEC })
+            .should("be.visible")
+            .should("be.enabled");
+        cy.get(passwordConfirm, { timeout: 10 * SEC })
+            .should("be.visible")
+            .should("be.enabled");
         this.inputPassword(this.password);
+        // Verify password was actually entered
+        cy.get(passwordInput).should("have.value", this.password);
+        cy.get(passwordConfirm).should("have.value", this.password);
         click(tempPasswordToggle);
+        cy.wait(500); // Wait for toggle state change
         clickByText("button", "Save");
+        cy.wait(1 * SEC); // Wait for first save to process
         clickByText("button", "Save password");
         cy.wait(2 * SEC); // Wait for password to be saved
     }
