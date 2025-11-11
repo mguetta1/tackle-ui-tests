@@ -157,6 +157,8 @@ export class User {
     definePassword(): void {
         this.navigateToSection("credentials");
         click(createPasswordButton);
+        // Wait for the modal to open and password fields to be visible
+        cy.get(passwordInput, { timeout: 10 * SEC }).should("be.visible");
         this.inputPassword(this.password);
         click(tempPasswordToggle);
         click(modalConfirmButton);
